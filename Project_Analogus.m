@@ -277,7 +277,7 @@ while (flag == 0)
             title('DSB-SC: Demodulated Filtered Signal in Time Domain (Coherent - With Frequency Error = 0.1kHz)')
             
             % Convert to Frequency and plot
-            receivedAudio_dsbsc_coh_freqError_f = fftshift(fft(receivedAudio_dsbsc_coh_SNR));
+            receivedAudio_dsbsc_coh_freqError_f = fftshift(fft(receivedAudio_dsbsc_coh_freqError));
             receivedAudio_dsbsc_coh_freqError_f_mag = abs(receivedAudio_dsbsc_coh_freqError_f);
             receivedAudio_dsbsc_coh_freqError_f_phase = angle(receivedAudio_dsbsc_coh_freqError_f) * (180/pi);
             freqRange_dsbsc_coh = linspace(0,length(receivedAudio_dsbsc_coh_freqError)/fs,length(receivedAudio_dsbsc_coh_freqError));
