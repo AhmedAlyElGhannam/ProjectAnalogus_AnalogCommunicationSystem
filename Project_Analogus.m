@@ -44,12 +44,15 @@ unfilteredAudio_f_phase = angle(unfilteredAudio_f)*(180/pi);
 figure
 plot(timeRange_prologue,unfilteredAudio_t)
 title('Unfiltered Signal - Time Domain')
+saveas(gcf,'figures\Exp1\Unfiltered Signal - Time Domain.png')
 figure
 plot(freqRange_afterResample_dsbsc,unfilteredAudio_f_mag)
 title('Unfiltered Signal Magnitude - Frequency Domain')
+saveas(gcf,'figures\Exp1\Unfiltered Signal Magnitude - Frequency Domain.png')
 figure
 plot(freqRange_afterResample_dsbsc,unfilteredAudio_f_phase)
 title('Unfiltered Signal Phase - Frequency Domain')
+saveas(gcf,'figures\Exp1\Unfiltered Signal Phase - Frequency Domain.png')
 
 % Playing unfilteredAudio_t
 fprintf('Playing the Input Audio Signal\n')
@@ -79,9 +82,11 @@ freqRange_afterResample_dsbsc = linspace(-Fs/2, Fs/2, N_samples);
 figure
 plot(timeRange_prologue,filteredAudio_t)
 title('Filtered Signal - Time Domain')
+saveas(gcf,'figures\Exp1\Filtered Signal - Time Domain.png')
 figure
 plot(freqRange_afterResample_dsbsc,abs(filteredAudio_f))
 title('Filtered Signal - Frequency Domain')
+saveas(gcf,'figures\Exp1\Filtered Signal - Frequency Domain.png')
 
 % Playing Filtered Audio Signal unfilteredAudio_t
 fprintf('Playing Audio Signal After Filtering Frequencies Higher than 4kHz\n')
@@ -117,6 +122,7 @@ timeRange_afterResample = linspace(0,length(message)/fs,length(message));
 figure
 plot(timeRange_afterResample,message)
 title('Message After Resampling')
+saveas(gcf,'figures\Exp1\Message After Resampling.png')
 
 %% Experiment 1: DSB Modulation
 fprintf('Experiment 01: DSB Modulation\n')
@@ -135,6 +141,7 @@ st_dsbsc = message .* (A * carrier);
 figure
 plot(timeRange_afterResample,st_dsbsc)
 title('DSB-SC: Modulated Signal in Time Domain')
+saveas(gcf,'figures\Exp1\DSB-SC - Modulated Signal in Time Domain.png')
 
 % S(f) = FT{s(t)}
 Sf_dsbsc = fftshift(fft(st_dsbsc));
@@ -150,6 +157,7 @@ Sf_dsbsc_phase = angle(Sf_dsbsc)*(180/pi);
 figure
 plot(freqRange_afterResample_dsbsc,Sf_dsbsc_mag)
 title('DSB-SC: Modulated Signal in Frequency Domain')
+saveas(gcf,'figures\Exp1\DSB-SC - Modulated Signal in Frequency Domain.png')
 
 %%% Receiver (Coherent)
 % While Loop to Keep Asking the User for Parameters Regarding Coherent Detection - DSB-SC
@@ -187,6 +195,7 @@ while (flag == 0)
             figure
             plot(timeRange_dsbsc_coh_noNoise,receivedAudio_dsbsc_coh_noNoise) 
             title('DSB-SC: Demodulated Filtered Signal in Time Domain (Coherent - No Noise)')
+            saveas(gcf,'figures\Exp1\DSB-SC - Demodulated Filtered Signal in Time Domain (Coherent - No Noise).png')
             
             % Convert to Frequency and plot
             receivedAudio_dsbsc_coh_noNoise_f = fftshift(fft(receivedAudio_dsbsc_coh_noNoise));
@@ -196,9 +205,12 @@ while (flag == 0)
             figure
             plot(freqRange_dsbsc_coh,receivedAudio_dsbsc_coh_noNoise_f_mag) 
             title('DSB-SC: Demodulated Filtered Signal Magnitude in Frequency Domain (Coherent - No Noise)')
+            saveas(gcf,'figures\Exp1\DSB-SC - Demodulated Filtered Signal Magnitude in Frequency Domain (Coherent - No Noise).png')
             figure
             plot(freqRange_dsbsc_coh,receivedAudio_dsbsc_coh_noNoise_f_phase) 
             title('DSB-SC: Demodulated Filtered Signal Phase in Frequency Domain (Coherent - No Noise)')
+            saveas(gcf,'figures\Exp1\DSB-SC - Demodulated Filtered Signal Phase in Frequency Domain (Coherent - No Noise).png')
+
 
             % Playing The Received Audio Signal
             fprintf('Playing Received Audio Signal - DSB-SC (Coherent - No Noise)\n')
@@ -231,6 +243,8 @@ while (flag == 0)
             figure
             plot(timeRange_dsbsc_coh_SNR,receivedAudio_dsbsc_coh_SNR) 
             title('DSB-SC: Demodulated Filtered Signal in Time Domain (Coherent - With SNR)')
+            saveas(gcf,'figures\Exp1\DSB-SC - Demodulated Filtered Signal in Time Domain (Coherent - With SNR).png')
+
             
             % Convert to Frequency and plot
             receivedAudio_dsbsc_coh_SNR_f = fftshift(fft(receivedAudio_dsbsc_coh_SNR));
@@ -240,9 +254,13 @@ while (flag == 0)
             figure
             plot(freqRange_dsbsc_coh,receivedAudio_dsbsc_coh_SNR_f_mag) 
             title('DSB-SC: Demodulated Filtered Signal Magnitude in Frequency Domain (Coherent - With SNR)')
+            saveas(gcf,'figures\Exp1\DSB-SC - Demodulated Filtered Signal Magnitude in Frequency Domain (Coherent - With SNR).png')
+
             figure
             plot(freqRange_dsbsc_coh,receivedAudio_dsbsc_coh_SNR_f_phase) 
             title('DSB-SC: Demodulated Filtered Signal Phase in Frequency Domain (Coherent - With SNR)')
+            saveas(gcf,'figures\Exp1\DSB-SC - Demodulated Filtered Signal Phase in Frequency Domain (Coherent - With SNR).png')
+
 
             % Playing The Received Audio Signal
             fprintf('Playing Received Audio Signal - DSB-SC (Coherent - With SNR)\n')
@@ -275,6 +293,8 @@ while (flag == 0)
             figure
             plot(timeRange_dsbsc_coh_freqError,receivedAudio_dsbsc_coh_freqError) 
             title('DSB-SC: Demodulated Filtered Signal in Time Domain (Coherent - With Frequency Error = 0.1kHz)')
+            saveas(gcf,'figures\Exp1\DSB-SC - Demodulated Filtered Signal in Time Domain (Coherent - With Frequency Error = 0.1kHz).png')
+
             
             % Convert to Frequency and plot
             receivedAudio_dsbsc_coh_freqError_f = fftshift(fft(receivedAudio_dsbsc_coh_freqError));
@@ -284,9 +304,13 @@ while (flag == 0)
             figure
             plot(freqRange_dsbsc_coh,receivedAudio_dsbsc_coh_freqError_f_mag) 
             title('DSB-SC: Demodulated Filtered Signal Magnitude in Frequency Domain (Coherent - With Frequency Error = 0.1kHz)')
+            saveas(gcf,'figures\Exp1\DSB-SC - Demodulated Filtered Signal Magnitude in Frequency Domain (Coherent - With Frequency Error = 0.1kHz).png')
+
             figure
             plot(freqRange_dsbsc_coh,receivedAudio_dsbsc_coh_freqError_f_phase) 
             title('DSB-SC: Demodulated Filtered Signal Phase in Frequency Domain (Coherent - With Frequency Error = 0.1kHz)')
+            saveas(gcf,'figures\Exp1\DSB-SC - Demodulated Filtered Signal Phase in Frequency Domain (Coherent - With Frequency Error = 0.1kHz).png')
+
 
             % Playing The Received Audio Signal
             fprintf('Playing Received Audio Signal - DSB-SC (Coherent - With Frequency Error)\n')
@@ -319,6 +343,8 @@ while (flag == 0)
             figure
             plot(timeRange_dsbsc_coh_phaseError,receivedAudio_dsbsc_coh_phaseError) 
             title('DSB-SC: Demodulated Filtered Signal in Time Domain (Coherent - With Phase Error = pi/9)')
+            saveas(gcf,'figures\Exp1\DSB-SC - Demodulated Filtered Signal in Time Domain (Coherent - With Phase Error = pi%9).png')
+
             
             % Convert to Frequency and plot
             receivedAudio_dsbsc_coh_phaseError_f = fftshift(fft(receivedAudio_dsbsc_coh_phaseError));
@@ -328,9 +354,13 @@ while (flag == 0)
             figure
             plot(freqRange_dsbsc_coh,receivedAudio_dsbsc_coh_phaseError_f_mag) 
             title('DSB-SC: Demodulated Filtered Signal Magnitude in Frequency Domain (Coherent - With Phase Error = pi/9)')
+            saveas(gcf,'figures\Exp1\DSB-SC - Demodulated Filtered Signal Magnitude in Frequency Domain (Coherent - With Phase Error = pi%9).png')
+
             figure
             plot(freqRange_dsbsc_coh,receivedAudio_dsbsc_coh_phaseError_f_phase) 
             title('DSB-SC: Demodulated Filtered Signal Phase in Frequency Domain (Coherent - With Phase Error = pi/9)')
+            saveas(gcf,'figures\Exp1\DSB-SC - Demodulated Filtered Signal Phase in Frequency Domain (Coherent - With Phase Error = pi%9).png')
+
 
             % Playing The Received Audio Signal
             fprintf('Playing Received Audio Signal - DSB-SC (Coherent - With Phase Error)\n')
@@ -362,6 +392,8 @@ timeRange_dsbsc_env = linspace(0,length(receivedAudio_dsbsc_env)/fs,length(recei
 figure
 plot(timeRange_dsbsc_env,receivedAudio_dsbsc_env) 
 title('DSB-SC: Demodulated Filtered Signal in Time Domain (Envelope)')
+saveas(gcf,'figures\Exp1\DSB-SC - Demodulated Filtered Signal in Time Domain (Envelope).png')
+
 
 % Convert to Frequency and Plot
 receivedAudio_dsbsc_env_f = fftshift(fft(receivedAudio_dsbsc_env));
@@ -371,9 +403,12 @@ freqRange_dsbsc_env = linspace(0,length(receivedAudio_dsbsc_env)/fs,length(recei
 figure
 plot(freqRange_dsbsc_env,receivedAudio_dsbsc_env_f_mag) 
 title('DSB-SC: Demodulated Filtered Signal Magnitude in Frequency Domain (Envelope)')
+saveas(gcf,'figures\Exp1\DSB-SC - Demodulated Filtered Signal Magnitude in Frequency Domain (Envelope).png')
+
 figure
 plot(freqRange_dsbsc_env,receivedAudio_dsbsc_env_f_phase) 
 title('DSB-SC: Demodulated Filtered Signal Phase in Frequency Domain (Envelope)')
+saveas(gcf,'figures\Exp1\DSB-SC - Demodulated Filtered Signal Phase in Frequency Domain (Envelope).png')
 
 % Not gonna play it cuz it's distorted
 fprintf('\n')
@@ -390,6 +425,7 @@ st_dsbtc = ((A .* carrier) + (message .* carrier));
 figure
 plot(timeRange_afterResample,st_dsbtc)
 title('DSB-TC: Modulated Signal in Time Domain')
+saveas(gcf,'figures\Exp1\DSB-TC - Modulated Signal in Time Domain.png')
 
 % S(f)
 Sf_dsbtc = fftshift(fft(st_dsbtc));
@@ -405,6 +441,8 @@ Sf_dsbtc_phase = angle(Sf_dsbtc)*(180/pi);
 figure
 plot(freqRange_afterResample_dsbtc,Sf_dsbtc_mag)
 title('DSB-TC: Modulated Signal in Frequency Domain')
+saveas(gcf,'figures\Exp1\DSB-TC - Modulated Signal in Frequency Domain.png')
+
 
 %%% Receiving (Coherent)
 % Using Coherent Detector -> Multiply the Message by the Carrier
@@ -430,6 +468,8 @@ timeRange_dsbtc_coh = linspace(0,length(receivedAudio_dsbtc_coh)/fs,length(recei
 figure
 plot(timeRange_dsbtc_coh,receivedAudio_dsbtc_coh) % multiply by 2 to compensate the for dividing the amplitude by 2
 title('DSB-TC: Demodulated Filtered Signal in Time Domain (Coherent)')
+saveas(gcf,'figures\Exp1\DSB-TC - Demodulated Filtered Signal in Time Domain (Coherent).png')
+
 
 % Convert to Frequency and Plot
 receivedAudio_dsbtc_coh_f = fftshift(fft(receivedAudio_dsbtc_coh));
@@ -439,9 +479,12 @@ freqRange_dsbtc_coh = linspace(0,length(receivedAudio_dsbtc_coh)/fs,length(recei
 figure
 plot(freqRange_dsbtc_coh,receivedAudio_dsbtc_coh_f_mag) 
 title('DSB-TC: Demodulated Filtered Signal Magnitude in Frequency Domain (Coherent)')
+saveas(gcf,'figures\Exp1\DSB-TC - Demodulated Filtered Signal Magnitude in Frequency Domain (Coherent).png')
+
 figure
 plot(freqRange_dsbtc_coh,receivedAudio_dsbtc_coh_f_phase) 
 title('DSB-TC: Demodulated Filtered Signal Phase in Frequency Domain (Coherent)')
+saveas(gcf,'figures\Exp1\DSB-TC - Demodulated Filtered Signal Phase in Frequency Domain (Coherent).png')
 
 % Playing The Received Audio Signal
 fprintf('Playing Received Audio Signal - DSB-TC (Coherent)\n')
@@ -469,6 +512,7 @@ timeRange_dsbtc_env = linspace(0,length(receivedAudio_dsbtc_env)/fs,length(recei
 figure
 plot(timeRange_dsbtc_env,receivedAudio_dsbtc_env) 
 title('DSB-TC: Demodulated Filtered Signal in Time Domain (Envelope)')
+saveas(gcf,'figures\Exp1\DSB-TC - Demodulated Filtered Signal in Time Domain (Envelope).png')
 
 % Convert to Frequency and Plot
 receivedAudio_dsbtc_env_f = fftshift(fft(receivedAudio_dsbtc_env));
@@ -478,9 +522,12 @@ freqRange_dsbtc_env = linspace(0,length(receivedAudio_dsbtc_env)/fs,length(recei
 figure
 plot(freqRange_dsbtc_env,receivedAudio_dsbtc_env_f_mag)
 title('DSB-TC: Demodulated Filtered Signal Magnitude in Frequency Domain (Envelope)')
+saveas(gcf,'figures\Exp1\DSB-TC - Demodulated Filtered Signal Magnitude in Frequency Domain (Envelope).png')
+
 figure
 plot(freqRange_dsbtc_env,receivedAudio_dsbtc_env_f_phase) 
 title('DSB-TC: Demodulated Filtered Signal Phase in Frequency Domain (Envelope)')
+saveas(gcf,'figures\Exp1\DSB-TC - Demodulated Filtered Signal Phase in Frequency Domain (Envelope).png')
 
 % Playing The Received Audio Signal
 fprintf('Playing Received Audio Signal - DSB-TC (Envelope)\n')
