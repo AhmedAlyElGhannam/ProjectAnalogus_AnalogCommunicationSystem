@@ -817,7 +817,7 @@ envelope_NBFM = abs(hilbert(NBFM));
 receivedMessage_NBFM = diff(envelope_NBFM);
 
 % Downsampling the Message to Play it
-receivedAudio_NBFM = downsample(receivedMessage_NBFM, 10);
+receivedAudio_NBFM = downsample(receivedMessage_NBFM, downsampleFactor);
 
 % Redefining the Range of Time
 timeRange_NBFM = linspace(0,length(receivedAudio_NBFM)*10/fs,length(receivedAudio_NBFM));
@@ -869,4 +869,4 @@ fprintf('\n')
 % Goodbye Message
 disp("Thank You for Using Project Analogus")
 fprintf('\n')
-disp("Adious")
+disp("Adios")
