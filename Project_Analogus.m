@@ -774,6 +774,7 @@ fprintf('\n')
 
 %%% Transmission
 Kf = input('Enter a value for Kf ');
+A=input('Enter Gain Value ');
 
 % Defining Carrier ### Transpose (') is ESSENTIAL to Calculate s(t) Correctly
 carrier = (cos(2 * pi * fc * timeRange_afterResample)');
@@ -783,7 +784,7 @@ carrier_sin = hilbert(carrier);
 message_integration = cumsum(message);
 
 % Calculating Narrow Band Frequency-Modulated Signal
-NBFM = real((carrier .* A) - ((Kf .* message_integration) .* carrier_sin));
+NBFM = real((carrier .* A) - ((Kf .* message_integration) .*A.* carrier_sin));
 
 figure
 plot(timeRange_afterResample,NBFM)
@@ -817,7 +818,7 @@ envelope_NBFM = sqrt(A.^2 + B.^2);
 % Differentiating
 % Differentiaing the Signal Decreases the Length by 1 -> add Zero at the Beginning
 receivedMessage_NBFM = zeros(length(NBFM),1);
-receivedMessage_NBFM(2:end) = diff(envelope_NBFM) * 0.25;
+receivedMessage_NBFM(2:end) = diff(envelope_NBFM) ;
 
 % Downsampling the Message to Play it
 receivedAudio_NBFM = downsample(receivedMessage_NBFM, 10);
