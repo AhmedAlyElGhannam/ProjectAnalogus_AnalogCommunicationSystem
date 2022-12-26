@@ -861,4 +861,4 @@ fprintf('\n')
 % Goodbye Message
 disp("Thank You for Using Project Analogus")
 fprintf('\n')
-disp("Adious")
+disp("Adios")
