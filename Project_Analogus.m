@@ -820,7 +820,7 @@ receivedMessage_NBFM = zeros(length(NBFM),1);
 receivedMessage_NBFM(2:end) = diff(envelope_NBFM) * 0.25;
 
 % Downsampling the Message to Play it
-receivedAudio_NBFM = downsample(receivedMessage_NBFM, 10);
+receivedAudio_NBFM = downsample(receivedMessage_NBFM, downsampleFactor);
 
 % Redefining the Range of Time
 timeRange_NBFM = linspace(0,length(receivedAudio_NBFM)/fs,length(receivedAudio_NBFM));
