@@ -764,34 +764,30 @@ fprintf('\n')
 fprintf('\n')
 
 
-%%%%%%%%%%%End of SSB Modulation%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 %% Experiment 03: NBFM
 fprintf('Experiment 03: NBFM\n')
 fprintf('\n')
 
+
 %%% Transmission
 Kf = input('Enter a value for Kf ');
 A=input('Enter Gain Value ');
-
 % Defining Carrier ### Transpose (') is ESSENTIAL to Calculate s(t) Correctly
-carrier = (cos(2 * pi * fc * timeRange_afterResample)');
-carrier_sin = hilbert(carrier);
+carrier = A.*(cos(2 * pi * fc * timeRange_afterResample)');
+carrier_sin = A.*(sin(2 * pi * fc * timeRange_afterResample)');
 
 % Message Integration
 message_integration = cumsum(message);
-
+scale=Kf*max(message);
 % Calculating Narrow Band Frequency-Modulated Signal
-NBFM = real((carrier .* A) - ((Kf .* message_integration) .*A.* carrier_sin));
+NBFM = ( carrier - ( Kf .*message_integration .* carrier_sin) );
 
 figure
-plot(timeRange_afterResample,NBFM)
+plot(timeRange_afterResample,real(NBFM))
 title('NBFM: Modulated Signal in Time Domain')
 
 % Converting to Frequency Domain
-NBFM_f = fftshift(fft(NBFM));
+NBFM_f = fftshift(fft(real(NBFM)));
 
 % Defining the Range of Frequency for F_NBFM
 freqRange_afterResample_NBFM = linspace(-fs/2,fs/2,length(NBFM));
@@ -805,26 +801,34 @@ figure
 plot(freqRange_afterResample_NBFM,NBFM_f_mag)
 title('NBFM: Modulated Signal Magnitude in Frequency Domain')
 
-figure
-plot(freqRange_afterResample_NBFM,NBFM_f_phase)
-title('NBFM: Modulated Signal Phase in Frequency Domain')
+%figure
+%plot(freqRange_afterResample_NBFM,NBFM_f_phase)
+%title('NBFM: Modulated Signal Phase in Frequency Domain')
+%saveas(gcf,fullfile(fname, 'NBFM Modulated Signal Phase in Frequency Domain.png'))
 
 %%% Receiver (Discriminator/Slope Detector)
 % Defining Envelope
-%envelope = abs(hilbert(NBFM));
-B = A * message_integration;
-envelope_NBFM = sqrt(A.^2 + B.^2);
+envelope_NBFM = abs(hilbert(NBFM));
+%B = A * message_integration;
+%envelope_NBFM = sqrt(A.^2 + B.^2);
 
-% Differentiating
-% Differentiaing the Signal Decreases the Length by 1 -> add Zero at the Beginning
-receivedMessage_NBFM = zeros(length(NBFM),1);
-receivedMessage_NBFM(2:end) = diff(envelope_NBFM) ;
+
+
+receivedMessage_NBFM = diff(envelope_NBFM);
 
 % Downsampling the Message to Play it
 receivedAudio_NBFM = downsample(receivedMessage_NBFM, 10);
 
 % Redefining the Range of Time
-timeRange_NBFM = linspace(0,length(receivedAudio_NBFM)/fs,length(receivedAudio_NBFM));
+timeRange_NBFM = linspace(0,length(receivedAudio_NBFM)*10/fs,length(receivedAudio_NBFM));
+receivedAudio_NBFM=receivedAudio_NBFM/scale;
+
+
+%lowpass Butterworth filter
+
+[b,a] = butter(4,2000/(fs/20));
+receivedAudio_NBFM = filter(b,a,receivedAudio_NBFM);
+
 
 % Plotting the Received Message
 figure
@@ -835,13 +839,15 @@ title('NBFM: Demodulated Received Signal in Time Domain')
 receivedAudio_NBFM_f = fftshift(fft(receivedAudio_NBFM));
 receivedAudio_NBFM_f_mag = abs(receivedAudio_NBFM_f);
 receivedAudio_NBFM_f_phase = angle(receivedAudio_NBFM_f);
-freqRange_NBFM = linspace(0,length(receivedAudio_NBFM)/fs,length(receivedAudio_NBFM));
+freqRange_NBFM = linspace(-fs/2,fs/2,length(receivedAudio_NBFM));
 figure
 plot(freqRange_NBFM,receivedAudio_NBFM_f_mag) 
 title('NBFM: Demodulated Received Signal Magnitude in Frequency Domain')
-figure
-plot(freqRange_NBFM,receivedAudio_NBFM_f_phase) 
-title('NBFM: Demodulated Received Signal Phase in Frequency Domain')
+
+%figure
+%plot(freqRange_NBFM,receivedAudio_NBFM_f_phase) 
+%title('NBFM: Demodulated Received Signal Phase in Frequency Domain')
+%saveas(gcf,fullfile(fname, 'NBFM Demodulated Received Signal Phase in Frequency Domain.png'))
 
 % Playing The Received Audio Signal
 fprintf('Playing Received Audio Signal - NBFM \n')
@@ -851,6 +857,7 @@ pause();
 clear sound;
 fprintf('\n')
 fprintf('\n')
+
 
 
 %%%%%%%%%%%%%%%%End of NBFM%%%%%%%%%%%%%%%%%%
