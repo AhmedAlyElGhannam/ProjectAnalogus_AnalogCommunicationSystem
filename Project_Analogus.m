@@ -814,7 +814,8 @@ envelope_NBFM = abs(hilbert(NBFM));
 
 
 
-receivedMessage_NBFM = diff(envelope_NBFM);
+receivedMessage_NBFM = zeros(length(NBFM),1);
+receivedMessage_NBFM(2:end) = diff(envelope_NBFM);
 
 % Downsampling the Message to Play it
 receivedAudio_NBFM = downsample(receivedMessage_NBFM, downsampleFactor);
